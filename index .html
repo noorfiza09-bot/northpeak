@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NorthPeak Digital — Shopify builds that outsell your headcount</title>
+<meta name="description" content="NorthPeak Digital builds and optimizes Shopify stores for US e-commerce brands ready to scale past their current team's speed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1116;
+    --surface:#161B22;
+    --surface-2:#1D2430;
+    --line:#2A3240;
+    --snow:#F5F3EE;
+    --slate:#8B93A1;
+    --amber:#FF8A3D;
+    --magenta:#FF3D77;
+    --gradient: linear-gradient(90deg, var(--amber), var(--magenta));
+    --radius: 14px;
+    --max: 1180px;
+    --space-1: 8px;
+    --space-2: 16px;
+    --space-3: 24px;
+    --space-4: 40px;
+    --space-5: 64px;
+    --space-6: 96px;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--snow);
+    font-family:'Inter', system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    line-height:1.08;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  p{ margin:0; color:var(--slate); }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 var(--space-3); }
+
+  :focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  /* ---------- Nav ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(14,17,22,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:var(--space-2) var(--space-3);
+    max-width:var(--max); margin:0 auto;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:1.05rem;
+    text-decoration:none; color:var(--snow);
+  }
+  .logo svg{ width:22px; height:22px; }
+  .nav-links{ display:flex; gap:var(--space-4); list-style:none; margin:0; padding:0; }
+  .nav-links a{ text-decoration:none; color:var(--slate); font-size:0.92rem; font-weight:500; transition:color .2s ease; }
+  .nav-links a:hover{ color:var(--snow); }
+  .nav-cta{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--gradient); color:#0E1116; font-weight:600; font-size:0.88rem;
+    padding:9px 18px; border-radius:999px; text-decoration:none;
+    white-space:nowrap;
+  }
+  .menu-toggle{ display:none; background:none; border:1px solid var(--line); color:var(--snow); border-radius:8px; padding:8px 10px; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    padding:var(--space-6) var(--space-3) var(--space-5);
+    overflow:hidden;
+  }
+  .hero-inner{
+    max-width:var(--max); margin:0 auto;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:var(--space-5);
+    align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:0.78rem; letter-spacing:0.04em;
+    color:var(--amber); text-transform:uppercase;
+    border:1px solid rgba(255,138,61,0.35); background:rgba(255,138,61,0.08);
+    padding:6px 12px; border-radius:999px; margin-bottom:var(--space-3);
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 4.6vw, 4rem);
+    margin-bottom:var(--space-3);
+  }
+  .hero h1 .grad{
+    background:var(--gradient);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.lead{
+    font-size:1.12rem; color:var(--slate); max-width:44ch; margin-bottom:var(--space-4);
+  }
+  .hero-actions{ display:flex; gap:var(--space-2); flex-wrap:wrap; align-items:center; }
+  .btn-primary{
+    background:var(--gradient); color:#0E1116; font-weight:600; font-size:0.95rem;
+    padding:14px 26px; border-radius:999px; text-decoration:none; border:none;
+    cursor:pointer; display:inline-block;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 30px -8px rgba(255,61,119,0.5); }
+  .btn-secondary{
+    color:var(--snow); font-weight:500; font-size:0.95rem; text-decoration:none;
+    padding:14px 22px; border-radius:999px; border:1px solid var(--line);
+    transition:border-color .18s ease, background .18s ease;
+  }
+  .btn-secondary:hover{ border-color:var(--slate); background:var(--surface); }
+
+  .hero-stats{ display:flex; gap:var(--space-4); margin-top:var(--space-5); }
+  .hero-stats div strong{ display:block; font-family:'JetBrains Mono', monospace; font-size:1.5rem; color:var(--snow); }
+  .hero-stats div span{ font-size:0.8rem; color:var(--slate); }
+
+  /* Ascent line signature graphic */
+  .ascent-wrap{ position:relative; }
+  .ascent-svg{ width:100%; height:auto; }
+  .ascent-path{
+    fill:none; stroke:url(#ascentGrad); stroke-width:3;
+    stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:900; stroke-dashoffset:900;
+    animation:draw 1.8s ease forwards 0.3s;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  .peak-dot{ fill:var(--amber); filter:drop-shadow(0 0 8px rgba(255,138,61,0.8)); opacity:0; animation:fadein .6s ease forwards 1.9s; }
+  @keyframes fadein{ to{ opacity:1; } }
+
+  /* Divider using the same ascent motif, quieter */
+  .divider{ padding:var(--space-2) 0; opacity:0.5; }
+  .divider svg{ width:100%; height:28px; display:block; }
+  .divider path{ fill:none; stroke:var(--line); stroke-width:1.5; }
+
+  section{ padding:var(--space-6) 0; }
+  .section-head{ max-width:640px; margin-bottom:var(--space-5); }
+  .section-head .eyebrow{ margin-bottom:var(--space-2); }
+  .section-head h2{ font-size:clamp(1.7rem, 3vw, 2.4rem); margin-bottom:var(--space-2); }
+  .section-head p{ font-size:1.02rem; }
+
+  /* ---------- Services ---------- */
+  .services-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--space-3);
+  }
+  .service-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:var(--space-4) var(--space-3);
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .service-card:hover{ border-color:rgba(255,138,61,0.4); transform:translateY(-3px); }
+  .service-icon{
+    width:42px; height:42px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--surface-2); margin-bottom:var(--space-3);
+  }
+  .service-icon svg{ width:22px; height:22px; stroke:var(--amber); }
+  .service-card h3{ font-size:1.08rem; margin-bottom:8px; }
+  .service-card p{ font-size:0.92rem; }
+
+  /* ---------- Results ---------- */
+  .results{ background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .results-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--space-3); }
+  .result-card{
+    background:var(--ink); border:1px solid var(--line); border-radius:var(--radius);
+    padding:var(--space-4) var(--space-3);
+    display:flex; flex-direction:column; gap:var(--space-3);
+  }
+  .result-metric{ font-family:'JetBrains Mono', monospace; font-size:2rem; color:transparent; background:var(--gradient); -webkit-background-clip:text; background-clip:text; }
+  .result-quote{ font-size:0.98rem; color:var(--snow); font-style:normal; }
+  .result-attr{ font-size:0.85rem; color:var(--slate); margin-top:auto; }
+  .result-attr strong{ color:var(--snow); font-weight:600; }
+
+  /* ---------- Pricing ---------- */
+  .pricing-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--space-3); align-items:stretch; }
+  .price-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:var(--space-4) var(--space-3);
+    display:flex; flex-direction:column;
+  }
+  .price-card.featured{
+    border:1px solid transparent;
+    background:linear-gradient(var(--surface), var(--surface)) padding-box,
+               var(--gradient) border-box;
+    position:relative;
+  }
+  .price-badge{
+    position:absolute; top:-13px; left:var(--space-3);
+    background:var(--gradient); color:#0E1116; font-size:0.72rem; font-weight:600;
+    padding:4px 12px; border-radius:999px; letter-spacing:0.02em;
+  }
+  .price-tier{ font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--amber); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+  .price-card h3{ font-size:1.3rem; margin-bottom:4px; }
+  .price-card .price-value{ font-family:'JetBrains Mono', monospace; font-size:2.1rem; margin:var(--space-2) 0; color:var(--snow); }
+  .price-value span{ font-size:0.95rem; color:var(--slate); font-family:'Inter',sans-serif; }
+  .price-desc{ font-size:0.92rem; margin-bottom:var(--space-3); }
+  .price-features{ list-style:none; margin:0 0 var(--space-4) 0; padding:0; display:flex; flex-direction:column; gap:10px; flex-grow:1; }
+  .price-features li{ display:flex; gap:10px; font-size:0.9rem; color:var(--snow); align-items:flex-start; }
+  .price-features svg{ width:16px; height:16px; flex-shrink:0; margin-top:3px; stroke:var(--amber); }
+  .price-cta{
+    text-align:center; text-decoration:none; padding:12px; border-radius:10px;
+    border:1px solid var(--line); color:var(--snow); font-weight:500; font-size:0.92rem;
+    transition:border-color .2s ease, background .2s ease;
+  }
+  .price-card.featured .price-cta{ background:var(--gradient); color:#0E1116; border:none; font-weight:600; }
+  .price-cta:hover{ border-color:var(--slate); background:var(--surface-2); }
+
+  /* ---------- Contact ---------- */
+  .contact-inner{
+    display:grid; grid-template-columns:0.9fr 1.1fr; gap:var(--space-5);
+    background:var(--surface); border:1px solid var(--line); border-radius:20px;
+    padding:var(--space-5);
+  }
+  .contact-info h2{ font-size:1.9rem; margin-bottom:var(--space-2); }
+  .contact-info p{ margin-bottom:var(--space-4); }
+  .contact-detail{ display:flex; align-items:center; gap:10px; font-size:0.92rem; margin-bottom:var(--space-2); color:var(--snow); }
+  .contact-detail svg{ width:18px; height:18px; stroke:var(--amber); flex-shrink:0; }
+
+  form{ display:flex; flex-direction:column; gap:var(--space-3); }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  .field label{ font-size:0.85rem; font-weight:500; color:var(--snow); }
+  .field .req{ color:var(--amber); }
+  .field input, .field select, .field textarea{
+    background:var(--surface-2); border:1px solid var(--line); border-radius:10px;
+    padding:12px 14px; color:var(--snow); font-family:'Inter',sans-serif; font-size:0.95rem;
+    width:100%;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{ outline:none; border-color:var(--amber); }
+  .field textarea{ resize:vertical; min-height:110px; }
+  .field-error{ font-size:0.8rem; color:var(--magenta); min-height:1em; display:none; }
+  .field.invalid input, .field.invalid select, .field.invalid textarea{ border-color:var(--magenta); }
+  .field.invalid .field-error{ display:block; }
+  .two-col{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); }
+  .submit-row{ display:flex; align-items:center; gap:var(--space-3); }
+  .form-status{ font-size:0.88rem; color:var(--slate); }
+  .form-status.success{ color:#5CE0A0; }
+
+  /* ---------- Footer ---------- */
+  footer.site{ border-top:1px solid var(--line); padding:var(--space-5) 0 var(--space-4); }
+  .footer-inner{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-3); }
+  .footer-credit{ font-size:0.82rem; color:var(--slate); }
+  .footer-credit a{ color:var(--amber); text-decoration:none; }
+  .footer-credit a:hover{ text-decoration:underline; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:1024px){
+    .services-grid, .results-grid, .pricing-grid{ grid-template-columns:repeat(2, 1fr); }
+    .hero-inner{ grid-template-columns:1fr; }
+    .ascent-wrap{ order:-1; max-width:420px; }
+    .contact-inner{ grid-template-columns:1fr; padding:var(--space-4); }
+  }
+  @media (max-width:768px){
+    .nav-links{ display:none; }
+    .menu-toggle{ display:inline-flex; }
+    .hero{ padding-top:var(--space-4); padding-bottom:var(--space-4); }
+    .hero-stats{ gap:var(--space-3); flex-wrap:wrap; }
+    section{ padding:var(--space-5) 0; }
+    .services-grid, .results-grid, .pricing-grid{ grid-template-columns:1fr; }
+    .two-col{ grid-template-columns:1fr; }
+    .price-card.featured{ order:-1; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <nav class="nav">
+    <a href="#top" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="url(#navGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <defs><linearGradient id="navGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF8A3D"/><stop offset="1" stop-color="#FF3D77"/></linearGradient></defs>
+        <path d="M3 20 L9 8 L13 14 L16 9 L21 20 Z"/>
+      </svg>
+      NorthPeak Digital
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Book a build call</a>
+    <button class="menu-toggle" aria-label="Menu">☰</button>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-inner wrap">
+      <div>
+        <span class="eyebrow">Shopify development · US e-commerce</span>
+        <h1 id="hero-heading">Your store stopped moving as fast as your ideas. <span class="grad">We fix that.</span></h1>
+        <p class="lead">NorthPeak builds and rebuilds Shopify stores for brands that outgrew their current setup — faster checkouts, custom sections that don't need a developer to edit, and a codebase your next hire won't dread.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">Book a build call</a>
+          <a href="#results" class="btn-secondary">See recent builds</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong class="mono">2.1s</strong><span>avg. homepage load, post-launch</span></div>
+          <div><strong class="mono">11 days</strong><span>average time to launch</span></div>
+          <div><strong class="mono">38</strong><span>Shopify stores shipped</span></div>
+        </div>
+      </div>
+      <div class="ascent-wrap" aria-hidden="true">
+        <svg class="ascent-svg" viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ascentGrad" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#FF8A3D"/>
+              <stop offset="1" stop-color="#FF3D77"/>
+            </linearGradient>
+          </defs>
+          <path class="ascent-path" d="M10,260 L70,230 L110,250 L160,150 L200,180 L250,90 L300,120 L340,40 L400,20"/>
+          <circle class="peak-dot" cx="400" cy="20" r="6"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 28" preserveAspectRatio="none"><path d="M0,20 L150,10 L300,22 L450,6 L600,18 L750,4 L900,16 L1050,8 L1200,20"/></svg>
+  </div>
+
+  <section id="services" aria-labelledby="services-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">What we do</span>
+        <h2 id="services-heading">Six problems we solve on repeat</h2>
+        <p>Every engagement starts with one of these — most stores need two or three at once.</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-6 9 6-9 6-9-6z"/><path d="M3 9v6l9 6 9-6V9"/></svg></div>
+          <h3>Shopify build & theme development</h3>
+          <p>Full store builds on Dawn or a custom theme, structured so your team can update it without touching code.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/></svg></div>
+          <h3>Custom Liquid sections</h3>
+          <p>Merchandising blocks your team edits from the theme customizer — no app subscriptions, no dev ticket.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <h3>Speed & Core Web Vitals</h3>
+          <p>We find what's actually slowing your store down — usually apps and images — and cut it without breaking checkout.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M8 14h4"/></svg></div>
+          <h3>Checkout & conversion work</h3>
+          <p>Cart, shipping, and checkout copy and UX tuned against your actual funnel data, not best-practice guesses.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l4 4-4 4M3 12h18M7 22l-4-4 4-4"/></svg></div>
+          <h3>Platform migration</h3>
+          <p>Moving off WooCommerce or BigCommerce without losing your order history, SEO rankings, or your mind.</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+          <h3>Ongoing dev retainer</h3>
+          <p>A fixed monthly block of dev hours for the fixes and features that come up between big projects.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 28" preserveAspectRatio="none"><path d="M0,10 L150,20 L300,4 L450,18 L600,8 L750,22 L900,6 L1050,16 L1200,10"/></svg>
+  </div>
+
+  <section id="results" class="results" aria-labelledby="results-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Recent builds</span>
+        <h2 id="results-heading">Numbers from the last three launches</h2>
+        <p>Real engagements, names changed at the client's request.</p>
+      </div>
+      <div class="results-grid">
+
+        <div class="result-card">
+          <span class="result-metric">+34%</span>
+          <p class="result-quote">"We didn't know our old theme was the bottleneck until they showed us the waterfall. Checkout completion jumped within a week of launch."</p>
+          <p class="result-attr"><strong>Priya Shah</strong> — Founder, skincare DTC brand</p>
+        </div>
+
+        <div class="result-card">
+          <span class="result-metric">4.1s → 1.6s</span>
+          <p class="result-quote">"They rebuilt our product page without touching the parts our merchandising team relies on. That balance is rare."</p>
+          <p class="result-attr"><strong>Marcus Idehen</strong> — Ops lead, outdoor gear retailer</p>
+        </div>
+
+        <div class="result-card">
+          <span class="result-metric">9 days</span>
+          <p class="result-quote">"Migrated us off WooCommerce over a long weekend with zero order data lost. Support tickets were the real surprise — they dropped."</p>
+          <p class="result-attr"><strong>Elena Cortes</strong> — Co-founder, home goods brand</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 28" preserveAspectRatio="none"><path d="M0,20 L150,10 L300,22 L450,6 L600,18 L750,4 L900,16 L1050,8 L1200,20"/></svg>
+  </div>
+
+  <section id="pricing" aria-labelledby="pricing-heading">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Pricing</span>
+        <h2 id="pricing-heading">Three ways to work with us</h2>
+        <p>Named for how far along the climb you are — pick where you're starting from.</p>
+      </div>
+      <div class="pricing-grid">
+
+        <div class="price-card">
+          <div class="price-tier">Basecamp</div>
+          <h3>One focused fix</h3>
+          <div class="price-value">$1,900<span>/ project</span></div>
+          <p class="price-desc">For stores that need one specific thing solved well — a slow page, a broken section, a single migration step.</p>
+          <ul class="price-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>One scoped deliverable</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>1 week turnaround</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>2 rounds of revisions</li>
+          </ul>
+          <a href="#contact" class="price-cta">Start at Basecamp</a>
+        </div>
+
+        <div class="price-card featured">
+          <span class="price-badge">Most common</span>
+          <div class="price-tier">Ascent</div>
+          <h3>Full store build</h3>
+          <div class="price-value">$6,400<span>/ project</span></div>
+          <p class="price-desc">A complete theme build or rebuild — the option most brands starting fresh on Shopify choose.</p>
+          <ul class="price-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Full theme build, up to 8 templates</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>3–4 week turnaround</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Speed pass before launch</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>30 days of post-launch support</li>
+          </ul>
+          <a href="#contact" class="price-cta">Start your build</a>
+        </div>
+
+        <div class="price-card">
+          <div class="price-tier">Summit</div>
+          <h3>Retainer partnership</h3>
+          <div class="price-value">$3,200<span>/ month</span></div>
+          <p class="price-desc">For brands past their first launch — ongoing dev capacity plus a direct line to the person who built your store.</p>
+          <ul class="price-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>25 dev hours / month</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>48-hour response time</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Monthly performance review</li>
+          </ul>
+          <a href="#contact" class="price-cta">Talk retainer</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 1200 28" preserveAspectRatio="none"><path d="M0,10 L150,20 L300,4 L450,18 L600,8 L750,22 L900,6 L1050,16 L1200,10"/></svg>
+  </div>
+
+  <section id="contact" aria-labelledby="contact-heading">
+    <div class="wrap">
+      <div class="contact-inner">
+        <div class="contact-info">
+          <span class="eyebrow">Get in touch</span>
+          <h2 id="contact-heading">Tell us where your store is stuck</h2>
+          <p>We reply within one business day with next steps — usually a 20-minute call to scope the work.</p>
+          <div class="contact-detail">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M4 6l8 7 8-7"/></svg>
+            hello@northpeakdigital.com
+          </div>
+          <div class="contact-detail">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            Replies within 1 business day, ET
+          </div>
+        </div>
+
+        <form id="contact-form" novalidate>
+          <div class="two-col">
+            <div class="field" data-field="name">
+              <label for="name">Full name <span class="req">*</span></label>
+              <input type="text" id="name" name="name" autocomplete="name">
+              <span class="field-error">Enter your full name.</span>
+            </div>
+            <div class="field" data-field="email">
+              <label for="email">Work email <span class="req">*</span></label>
+              <input type="email" id="email" name="email" autocomplete="email">
+              <span class="field-error">Enter a valid email address.</span>
+            </div>
+          </div>
+
+          <div class="field" data-field="store">
+            <label for="store">Store URL</label>
+            <input type="text" id="store" name="store" placeholder="yourstorename.com" autocomplete="url">
+            <span class="field-error">That doesn't look like a valid URL.</span>
+          </div>
+
+          <div class="field" data-field="budget">
+            <label for="budget">Budget range <span class="req">*</span></label>
+            <select id="budget" name="budget">
+              <option value="">Select a range</option>
+              <option value="under-2k">Under $2,000</option>
+              <option value="2k-6k">$2,000 – $6,000</option>
+              <option value="6k-15k">$6,000 – $15,000</option>
+              <option value="15k-plus">$15,000+</option>
+            </select>
+            <span class="field-error">Select a budget range.</span>
+          </div>
+
+          <div class="field" data-field="message">
+            <label for="message">What's going on with your store? <span class="req">*</span></label>
+            <textarea id="message" name="message" placeholder="e.g. Our checkout completion rate has been dropping and we can't figure out why."></textarea>
+            <span class="field-error">Give us a couple of sentences to go on.</span>
+          </div>
+
+          <div class="submit-row">
+            <button type="submit" class="btn-primary">Send message</button>
+            <span class="form-status" id="form-status" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap footer-inner">
+    <a href="#top" class="logo" style="font-size:0.95rem;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="url(#footGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+        <defs><linearGradient id="footGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF8A3D"/><stop offset="1" stop-color="#FF3D77"/></linearGradient></defs>
+        <path d="M3 20 L9 8 L13 14 L16 9 L21 20 Z"/>
+      </svg>
+      NorthPeak Digital
+    </a>
+    <p class="footer-credit">
+      Fictional agency built for a design exercise · <a href="https://digitalheroesco.com" target="_blank" rel="noopener">Built for Digital Heroes Training Task</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var form = document.getElementById('contact-form');
+  var status = document.getElementById('form-status');
+
+  var validators = {
+    name: function(v){ return v.trim().length >= 2; },
+    email: function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); },
+    store: function(v){
+      if (v.trim() === '') return true; // optional field
+      return /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/.test(v.trim());
+    },
+    budget: function(v){ return v !== ''; },
+    message: function(v){ return v.trim().length >= 10; }
+  };
+
+  function validateField(fieldEl){
+    var name = fieldEl.getAttribute('data-field');
+    var input = fieldEl.querySelector('input, select, textarea');
+    var isValid = validators[name](input.value);
+    fieldEl.classList.toggle('invalid', !isValid);
+    return isValid;
+  }
+
+  Array.prototype.forEach.call(form.querySelectorAll('.field'), function(fieldEl){
+    var input = fieldEl.querySelector('input, select, textarea');
+    input.addEventListener('blur', function(){ validateField(fieldEl); });
+    input.addEventListener('input', function(){
+      if (fieldEl.classList.contains('invalid')) validateField(fieldEl);
+    });
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var fields = Array.prototype.slice.call(form.querySelectorAll('.field'));
+    var allValid = fields.reduce(function(acc, f){ return validateField(f) && acc; }, true);
+
+    if (!allValid){
+      status.textContent = 'Please fix the highlighted fields.';
+      status.className = 'form-status';
+      var firstInvalid = form.querySelector('.field.invalid input, .field.invalid select, .field.invalid textarea');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+    // Static demo site — no backend endpoint. In production this posts to
+    // the intake API; here we simulate the round trip.
+    status.textContent = 'Sending…';
+    status.className = 'form-status';
+    setTimeout(function(){
+      status.textContent = 'Thanks — we\'ll reply within one business day.';
+      status.className = 'form-status success';
+      form.reset();
+    }, 600);
+  });
+})();
+</script>
+
+</body>
+</html>
